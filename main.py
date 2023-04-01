@@ -78,8 +78,13 @@ def send_request(language: str, words: str) -> None:
         Raises:
             openai.error.OpenAIError: If there is an error with the OpenAI API request.
     """
-    
-    openai.api_key = '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'
+
+    openai_api_key = os.environ.get("OPENAI_API_KEY")
+    if not openai_api_key:
+        raise ValueError(
+            "OpenAI API key not found in environment variables. Please set the OPENAI_API_KEY environment variable.")
+
+    openai.api_key = openai_api_key
     
     completion = openai.ChatCompletion.create(
       model="gpt-3.5-turbo-0301",
